@@ -27,7 +27,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.Authenticator;
+import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
@@ -83,7 +85,14 @@ public class DefaultDownloader implements Downloader {
     try {
       URL url = address.toURL();
       out = new BufferedOutputStream(new FileOutputStream(destination));
-      conn = url.openConnection();
+
+      Proxy proxy = getProxy();
+
+      if (proxy != null){
+        conn = url.openConnection(proxyorg.apache.maven.wrapper.DownloaderTest);
+      } else {
+        conn = url.openConnection();
+      }
       addBasicAuthentication(address, conn);
       final String userAgentValue = calculateUserAgent();
       conn.setRequestProperty("User-Agent", userAgentValue);
@@ -108,6 +117,19 @@ public class DefaultDownloader implements Downloader {
         out.close();
       }
     }
+  }
+
+  private Proxy getProxy() {
+    Proxy proxy = null;
+
+    String proxyHost = System.getProperty("http.proxyHost");
+    int proxyPort = Integer.parseInt(System.getProperty("http.proxyPort", "3128"));
+
+    if (proxyHost != null) {
+      proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
+    }
+
+    return proxy;
   }
 
   private void addBasicAuthentication(URI address, URLConnection connection) throws IOException {
