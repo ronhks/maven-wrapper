@@ -37,6 +37,9 @@ public class WrapperExecutor {
 
   public static final String ZIP_STORE_PATH_PROPERTY = "zipStorePath";
 
+  public static final String PROXY_HOST_PROPERTY = "httpProxyHost";
+  public static final String PROXY_PORT_PROPERTY = "httpProxyPort";
+
   private final Properties properties;
 
   private final File propertiesFile;
@@ -68,6 +71,10 @@ public class WrapperExecutor {
         config.setDistributionPath(getProperty(DISTRIBUTION_PATH_PROPERTY, config.getDistributionPath()));
         config.setZipBase(getProperty(ZIP_STORE_BASE_PROPERTY, config.getZipBase()));
         config.setZipPath(getProperty(ZIP_STORE_PATH_PROPERTY, config.getZipPath()));
+        config.setZipPath(getProperty(ZIP_STORE_PATH_PROPERTY, config.getZipPath()));
+        config.setZipPath(getProperty(ZIP_STORE_PATH_PROPERTY, config.getZipPath()));
+        config.setProxyHost(getProperty(PROXY_HOST_PROPERTY, config.getProxyHost()));
+        config.setProxyPort(getProperty(PROXY_PORT_PROPERTY, config.getProxyPort()));
       } catch (Exception e) {
         throw new RuntimeException(String.format("Could not load wrapper properties from '%s'.", propertiesFile), e);
       }

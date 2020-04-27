@@ -25,7 +25,7 @@ public class DownloaderTest {
 
   @Before
   public void setUp() throws Exception {
-    download = new DefaultDownloader("mvnw", "aVersion");
+    download = new DefaultDownloader("mvnw", "aVersion", wrapperExecutor.getConfiguration());
     testDir = new File("target/test-files/DownloadTest");
     rootDir = new File(testDir, "root");
     downloadFile = new File(rootDir, "file");

@@ -36,6 +36,9 @@ public class WrapperConfiguration {
 
   private String zipPath = Installer.DEFAULT_DISTRIBUTION_PATH;
 
+  private String proxyHost = null;
+  private String proxyPort = "3128";
+
   public boolean isAlwaysDownload() {
     return alwaysDownload;
   }
@@ -91,4 +94,12 @@ public class WrapperConfiguration {
   public void setZipPath(String zipPath) {
     this.zipPath = zipPath;
   }
+
+  public String getProxyHost() { return proxyHost;}
+
+  public void setProxyHost(String proxyHost) {this.proxyHost = proxyHost;}
+
+  public String getProxyPort() { return proxyPort;}
+
+  public void setProxyPort(String proxyPort) {this.proxyPort = proxyPort;}
 }

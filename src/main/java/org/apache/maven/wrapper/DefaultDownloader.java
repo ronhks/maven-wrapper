@@ -30,6 +30,7 @@ import java.net.Authenticator;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
+import java.net.Proxy.Type;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
@@ -46,9 +47,12 @@ public class DefaultDownloader implements Downloader {
 
   private final String applicationVersion;
 
-  public DefaultDownloader(String applicationName, String applicationVersion) {
+  WrapperConfiguration configuration = null;
+
+  public DefaultDownloader(String applicationName, String applicationVersion, WrapperConfiguration configuration) {
     this.applicationName = applicationName;
     this.applicationVersion = applicationVersion;
+    this.configuration = configuration;
     configureProxyAuthentication();
     configureAuthentication();
   }
@@ -89,7 +93,7 @@ public class DefaultDownloader implements Downloader {
       Proxy proxy = getProxy();
 
       if (proxy != null){
-        conn = url.openConnection(proxyorg.apache.maven.wrapper.DownloaderTest);
+        conn = url.openConnection(proxy);
       } else {
         conn = url.openConnection();
       }
@@ -122,11 +126,11 @@ public class DefaultDownloader implements Downloader {
   private Proxy getProxy() {
     Proxy proxy = null;
 
-    String proxyHost = System.getProperty("http.proxyHost");
-    int proxyPort = Integer.parseInt(System.getProperty("http.proxyPort", "3128"));
+    String proxyHost = configuration.getProxyHost();
+    int proxyPort = Integer.parseInt(configuration.getProxyPort());
 
     if (proxyHost != null) {
-      proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
+      proxy = new Proxy(Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
     }
 
     return proxy;

@@ -58,7 +58,7 @@ public class MavenWrapperMain {
     addSystemProperties(rootDir);
 
     WrapperExecutor wrapperExecutor = WrapperExecutor.forWrapperPropertiesFile(propertiesFile, System.out);
-    wrapperExecutor.execute(args, new Installer(new DefaultDownloader("mvnw", wrapperVersion), new PathAssembler(mavenUserHome())), new BootstrapMainStarter());
+    wrapperExecutor.execute(args, new Installer(new DefaultDownloader("mvnw", wrapperVersion, wrapperExecutor.getConfiguration()), new PathAssembler(mavenUserHome())), new BootstrapMainStarter());
   }
 
   private static Map<String, String> parseSystemPropertiesFromArgs(String[] args) {
